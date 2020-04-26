@@ -37,7 +37,7 @@ window.addEventListener('DOMContentLoaded', ()=>{
 
     // timer
 
-    let deadLine = '2020-04-24';
+    let deadLine = '2020-04-24 ';
 
     function getTimeRemaning(endTime){
         let t = Date.parse(endTime) - Date.parse(new Date()),
@@ -83,5 +83,49 @@ window.addEventListener('DOMContentLoaded', ()=>{
         }
     }
 
+    // Modal window
+    let more = document.querySelector('.more'),
+        overlay = document.querySelector('.overlay'),
+        close = document.querySelector('.popup-close'),
+        tabBtn = document.querySelectorAll('.description-btn'),
+        infoContent = document.querySelectorAll('.description');
+
+
+    function showModalWindow(btn){
+        overlay.style.display = 'block';
+        btn.classList.add('more-splash');
+        document.body.style.overflow = 'hidden'; 
+    }
+
+    function closeModalWindow(){
+        overlay.style.display = 'none';
+        more.classList.remove('more-splash');
+        document.body.style.overflow = '';
+    }
+
+    more.addEventListener('click', function(){
+        showModalWindow(this);
+    });
+
+    close.addEventListener('click', function(){
+        closeModalWindow();
+    });
+
+    function showModalWindowInTab(){
+        for(let i = 0; i < infoContent.length; i++){
+            infoContent[i].addEventListener('click', (event)=>{
+                let target = event.target;
+                if(target && target.classList.contains('description-btn')){
+                    for(let i = 0; i < tabBtn.length; i++){
+                        if(target == tabBtn[i]){
+                            showModalWindow(this);
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    showModalWindowInTab();
     setClock('timer', deadLine);
 });
